@@ -11,8 +11,9 @@ def main():
 
     debug = '-d' in sys.argv
 
-    paths = [item for sublist in map(glob.glob, sys.argv[1:])
-             for item in sublist]
+    paths = filter(lambda x: x[0] != '-',
+                   [item for sublist in map(glob.glob, sys.argv[1:])
+                    for item in sublist])
 
     for path in paths:
         with open(path, 'r') as f:
