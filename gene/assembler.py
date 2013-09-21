@@ -14,10 +14,12 @@ for name, obj in inspect.getmembers(instructions, inspect.isclass):
 
 def assemble(lines):
 
+    tokenized_lines = map(scanner.scan, lines)
+
     # simple label pass
     labels = {}
     current_address = 0
-    for line in map(scanner.scan, lines):
+    for line in tokenized_lines:
         tokens, rest = line
         for token in tokens:
             token_type, value = token
@@ -30,7 +32,7 @@ def assemble(lines):
     #actual assemble pass
     assembly = []
     line_number = 0
-    for line in map(scanner.scan, lines):
+    for line in tokenized_lines:
         line_number += 1
         tokens, rest = line
         if rest:
@@ -46,10 +48,7 @@ def assemble(lines):
                 token = tokens.next()
                 token_type, value = token
 
-                if token_type == 'label':
-                    labels[value] = current_address
-
-                elif token_type == 'if':
+                if token_type == 'if':
                     token = tokens.next()
                     token_type, value = token
                     if token_type == 'condition':
@@ -71,10 +70,6 @@ def assemble(lines):
                         _, c = tokens.next()
                         instruction = instruction_map[
                             value.capitalize()](a, b, c)
-                        if instruction.cond == Cond.UNSET:
-                            instruction.cond = condition
-                        current_address += 1
-                        assembly.append(instruction)
 
                     # Two params
                     elif instruction in ['call', 'jmp', 'ld', 'ldi',
@@ -85,27 +80,19 @@ def assemble(lines):
                         if maybe_label == 'label':
                             b = labels[b]
                         instruction = instruction_map[value.capitalize()](a, b)
-                        if instruction.cond == Cond.UNSET:
-                            instruction.cond = condition
-                        current_address += 1
-                        assembly.append(instruction)
 
                     # One param
                     elif instruction in ['ldg', 'setg', 'nop', 'ret']:
                         _, a = tokens.next()
                         instruction = instruction_map[value.capitalize()](a)
-                        if instruction.cond == Cond.UNSET:
-                            instruction.cond = condition
-                        current_address += 1
-                        assembly.append(instruction)
 
                     # No params
                     elif instruction in ['nop', 'ret']:
                         instruction = instruction_map[value.capitalize()]()
-                        if instruction.cond == Cond.UNSET:
-                            instruction.cond = condition
-                        current_address += 1
-                        assembly.append(instruction)
+
+                    if instruction.cond == Cond.UNSET:
+                        instruction.cond = condition
+                    assembly.append(instruction)
 
         except StopIteration:
             pass
