@@ -1,0 +1,19 @@
+
+this_is_a_label:
+    add r0, r1, r2
+    sub r0, r1, r2
+
+    cmp r10, r20 /* this is comment */
+    if equal: jmp r0 other_label
+    setg r1
+
+    /* I guess long  comments are  nice,  but */
+    /* multi-line comments are not supported! */
+
+other_label:
+    addi r0, r30, 320
+    addi r0, r30, -21
+    muli r0, r30, 0x320
+    muli r0, r30, -0x21
+    subi r0, r30, 0b110
+    subi r0, r30, -0b110
