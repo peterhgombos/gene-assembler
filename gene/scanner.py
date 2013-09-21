@@ -6,7 +6,7 @@ def s_label(scanner, token):
 
 
 def s_condition(scanner, token):
-    return ('condition', token)
+    return ('condition', token[:-1])
 
 
 def s_register(scanner, token):
@@ -58,6 +58,6 @@ scanner = re.Scanner([
     (r'/\*.*\*/', s_comment),
     ('(equal|not equal|greater than|less than|greater than or equal|' +
      r'overflow|not overflow|less than or equal|always|never|eq|neq|' +
-     r'gt|lt|gte|lte|n|v|nv)', s_condition),
-    ('([^ :0-9][^ :]*)', s_label),
+     'gt|lt|gte|lte|n|v|nv)[ \t\v]*:', s_condition),
+    ('[^ :0-9][^ :]*', s_label),
 ])

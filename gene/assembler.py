@@ -36,7 +36,7 @@ def assemble(lines):
         line_number += 1
         tokens, rest = line
         if rest:
-            print '[' + line_number + ']: Tokenizer error near', rest
+            print '[%s]: Tokenizer error near' % line_number, rest
             return
 
         tokens = iter(tokens)

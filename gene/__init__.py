@@ -20,6 +20,9 @@ def main():
             assembly = [line for line in f]
         assembled = assemble(assembly)
 
+        if not assembled:
+            return
+
         address = 0
         binary = []
         for line in assembled:
