@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name='Gene Assembler',
+    name='Gene-Assembler',
     version='0.1',
     author=u'Sigve Sebastian Farstad',
     author_email='sigvefarstad@gmail.com',
