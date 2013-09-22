@@ -1,6 +1,6 @@
 import sys
 import glob
-from assembler import assemble
+from assembler import assemble, ascii_binary_to_real_binary
 
 
 def main():
@@ -24,9 +24,9 @@ def main():
             return
 
         address = 0
-        binary = []
+        ascii_binary = []
         for line in assembled:
-            binary.append(line.toBinary())
+            ascii_binary.append(line.toBinary())
             if debug:
                 print 'Address: %s' % address
                 print 'text: ' + str(line)
@@ -34,15 +34,10 @@ def main():
                 print
             address += 1
 
-        binary = ''.join(binary)
+        ascii_binary = ''.join(ascii_binary)
 
         with open(path + '.out', 'w') as f:
-            f.write(
-                ''.join(
-                    [chr(int('0b'+binary[i:i+8], 2))
-                        for i in range(0, len(binary), 8)]
-                )
-            )
+            f.write(ascii_binary_to_real_binary(ascii_binary))
 
 
 if __name__ == '__main__':

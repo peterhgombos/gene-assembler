@@ -59,5 +59,5 @@ scanner = re.Scanner([
     ('(equal|not equal|greater than|less than|greater than or equal|' +
      r'overflow|not overflow|less than or equal|always|never|eq|neq|' +
      'gt|lt|gte|lte|n|v|nv)[ \t\v]*:', s_condition),
-    ('[^ :0-9][^ :]*', s_label),
+    ('[^ :0-9\n\t\v][^ :\n\t\v]*', s_label),
 ])

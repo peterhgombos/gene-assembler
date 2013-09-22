@@ -98,3 +98,10 @@ def assemble(lines):
             pass
 
     return assembly
+
+
+def ascii_binary_to_real_binary(ascii_binary):
+    return ''.join(
+        [chr(int('0b'+ascii_binary[i:i+8], 2))
+            for i in range(0, len(ascii_binary), 8)]
+    )
